@@ -21,11 +21,13 @@ GUI.
 ### Card Images
 
 Card images should be saved as `card_00.png` through `card_52.png` in
-`assets/cards`. The order matches the original ios-cards collection:
+`assets/cards`. The numbering follows the ios-cards project exactly:
 
-1. Spades from **2** up to **A** (in that order)
-2. Hearts from **2** up to **A**
-3. Clubs from **2** up to **A**
-4. Diamonds from **2** up to **A**
-5. `card_52.png` is the back of a card used when the dealer's first
-   card should remain hidden.
+1. `card_00.png`–`card_12.png` are the Spades, starting at the **2** and
+   ending with the **A** (Ace).
+2. `card_13.png`–`card_25.png` are the Hearts from **2** through **A**.
+3. `card_26.png`–`card_38.png` are the Clubs from **2** through **A**.
+4. `card_39.png`–`card_51.png` are the Diamonds from **2** through
+   **A**.
+5. `card_52.png` represents the back of a card used when the dealer's
+   first card should remain hidden.
