@@ -1,9 +1,12 @@
+# snake-game-in-python-by-ganesh-kavhar
+ganesh kavhar python pygame development....
 # Blackjack Game in Python
 
 This repository originally contained a simple snake game. It has been
 replaced with a command-line Blackjack implementation written in pure
 Python.
 
+![snake](https://user-images.githubusercontent.com/20369800/51984957-ad399c00-24c2-11e9-90f3-201eb408bf22.gif)
 ## Playing
 
 Run `python blackjack.py` for the original command-line version. It
