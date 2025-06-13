@@ -6,5 +6,10 @@ Python.
 
 ## Playing
 
-Run `python blackjack.py` and follow the prompts to hit or stand. The
-dealer draws until reaching a hand value of 17 or higher.
+Run `python blackjack.py` for the original command-line version. It
+prompts you to hit or stand until the dealer reaches a hand value of 17
+or higher.
+
+If you prefer a windowed interface, run `python blackjack_gui.py` to
+play using a simple pygame-based UI with clickable **Hit** and **Stand**
+buttons.
