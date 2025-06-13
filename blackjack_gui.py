@@ -2,8 +2,9 @@
 
 import pygame
 import random
+import os
 
-SUITS = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+SUITS = ['Spades', 'Hearts', 'Clubs', 'Diamonds']
 RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 VALUES = {
     '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
@@ -28,26 +29,55 @@ def hand_value(hand):
         aces -= 1
     return total
 
+CARD_WIDTH = 80
+CARD_HEIGHT = int(CARD_WIDTH * 250 / 180)
+
+# Pre-load card images from ``assets/cards``. They should be named
+# ``card_00.png`` through ``card_52.png`` following the ios-cards
+# ordering: Spades from 2 through Ace, then Hearts, Clubs and Diamonds.
+# ``card_52.png`` represents the back of a card.  If an image is missing,
+# a simple placeholder surface is used so the game still runs.
+def load_card_images():
+    images = []
+    for i in range(53):
+        path = os.path.join('assets', 'cards', f'card_{i:02d}.png')
+        if os.path.exists(path):
+            img = pygame.image.load(path).convert_alpha()
+            img = pygame.transform.smoothscale(img, (CARD_WIDTH, CARD_HEIGHT))
+        else:
+            img = pygame.Surface((CARD_WIDTH, CARD_HEIGHT))
+            img.fill((0, 100, 0))
+            pygame.draw.rect(img, (255, 0, 0), img.get_rect(), 2)
+        images.append(img)
+    return images
+
+CARD_IMAGES = None
+
 def draw_text(screen, text, pos, font, color=(255, 255, 255)):
     surface = font.render(text, True, color)
     screen.blit(surface, pos)
 
-def draw_hand(screen, hand, x, y, font, hide_first=False):
+def card_index(rank, suit):
+    return SUITS.index(suit) * 13 + RANKS.index(rank)
+
+def draw_hand(screen, hand, x, y, hide_first=False):
     offset = 0
     for i, card in enumerate(hand):
         if i == 0 and hide_first:
-            label = '??'
+            image = CARD_IMAGES[52]
         else:
             rank, suit = card
-            label = f'{rank}{suit[0]}'
-        draw_text(screen, label, (x + offset, y), font)
-        offset += 60
+            image = CARD_IMAGES[card_index(rank, suit)]
+        screen.blit(image, (x + offset, y))
+        offset += CARD_WIDTH + 10
 
 def main():
+    global CARD_IMAGES
     pygame.init()
     screen = pygame.display.set_mode((640, 480))
     pygame.display.set_caption('Blackjack')
     font = pygame.font.SysFont(None, 32)
+    CARD_IMAGES = load_card_images()
 
     deck = Deck()
     player = [deck.deal(), deck.deal()]
@@ -95,9 +125,9 @@ def main():
 
         screen.fill((0, 100, 0))
         draw_text(screen, f'Dealer ({hand_value(dealer) if not player_turn else "?"})', (50, 50), font)
-        draw_hand(screen, dealer, 50, 80, font, hide_first=player_turn)
+        draw_hand(screen, dealer, 50, 80, hide_first=player_turn)
         draw_text(screen, f'Player ({hand_value(player)})', (50, 200), font)
-        draw_hand(screen, player, 50, 230, font)
+        draw_hand(screen, player, 50, 230)
 
         pygame.draw.rect(screen, (0, 0, 0), hit_rect)
         pygame.draw.rect(screen, (0, 0, 0), stand_rect)
@@ -112,5 +142,4 @@ def main():
 
     pygame.quit()
 
-if __name__ == '__main__':
-    main()
+if __name__ =
